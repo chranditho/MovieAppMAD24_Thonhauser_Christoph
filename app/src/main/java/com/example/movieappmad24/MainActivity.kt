@@ -9,10 +9,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -62,11 +68,18 @@ class MainActivity : ComponentActivity() {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.primary,
                 ) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        text = "Bottom app bar",
-                    )
+                    NavigationBar {
+                        NavigationBarItem(selected = true, onClick = { /*TODO*/ }, icon = {
+                            Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
+                        }, label = {
+                            Text("Home")
+                        })
+                        NavigationBarItem(selected = false, onClick = { /*TODO*/ }, icon = {
+                            Icon(imageVector = Icons.Default.Star, contentDescription = "Watchlist")
+                        }, label = {
+                            Text("Watchlist")
+                        })
+                    }
                 }
             },
         ) { innerPadding ->
