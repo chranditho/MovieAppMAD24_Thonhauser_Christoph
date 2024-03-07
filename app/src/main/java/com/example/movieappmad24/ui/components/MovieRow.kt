@@ -102,7 +102,7 @@ fun MovieRow(movie: Movie) {
                     Text("Rating: ${movie.rating}")
                     Divider(
                         thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.primaryContainer,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
                     Text("Plot: ${movie.plot}")
