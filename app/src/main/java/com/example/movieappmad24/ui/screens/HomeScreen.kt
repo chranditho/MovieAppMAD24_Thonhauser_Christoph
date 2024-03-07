@@ -1,7 +1,8 @@
 package com.example.movieappmad24.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,8 +22,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -107,9 +110,7 @@ fun MovieList(movies: List<Movie> = getMovies()) {
 
 @Composable
 fun MovieRow(movie: Movie) {
-    var showDetails by remember {
-        mutableStateOf(false)
-    }
+    var detailsVisible by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -152,15 +153,30 @@ fun MovieRow(movie: Movie) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = movie.title)
-                Icon(
-                    modifier = Modifier
-                        .clickable {
-                            showDetails = !showDetails
-                        },
-                    imageVector =
-                    if (showDetails) Icons.Filled.KeyboardArrowDown
-                    else Icons.Default.KeyboardArrowUp, contentDescription = "show more"
-                )
+                IconButton(onClick = { detailsVisible = !detailsVisible }) {
+                    Icon(
+                        imageVector = if (detailsVisible) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Expand/Collapse details"
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = detailsVisible) {
+                Column(modifier = Modifier
+                    .animateContentSize()
+                    .padding(18.dp)) {
+                    Text("Director: ${movie.director}")
+                    Text("Released: ${movie.year}")
+                    Text("Genre: ${movie.genre}")
+                    Text("Actors: ${movie.actors}")
+                    Text("Rating: ${movie.rating}")
+                    Divider(
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    Text("Plot: ${movie.plot}")
+                }
             }
         }
     }
