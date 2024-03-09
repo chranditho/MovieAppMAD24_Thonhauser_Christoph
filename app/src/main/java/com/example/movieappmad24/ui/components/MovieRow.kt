@@ -30,10 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.movieappmad24.R
+import coil.compose.rememberImagePainter
 import com.example.movieappmad24.models.Movie
 
 @Composable
@@ -48,6 +48,7 @@ fun MovieRow(movie: Movie) {
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Column {
+            val painter: Painter = rememberImagePainter(data = movie.images.first())
             Box(
                 modifier = Modifier
                     .height(150.dp)
@@ -55,9 +56,10 @@ fun MovieRow(movie: Movie) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.movie_image),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "placeholder image"
+                    painter = painter,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = "Movie image"
                 )
                 Box(
                     modifier = Modifier
