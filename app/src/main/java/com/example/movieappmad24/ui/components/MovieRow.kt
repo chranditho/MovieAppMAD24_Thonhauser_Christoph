@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.example.movieappmad24.models.Movie
 
 @Composable
@@ -48,7 +48,7 @@ fun MovieRow(movie: Movie) {
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Column {
-            val painter: Painter = rememberImagePainter(data = movie.images.first())
+            val painter: Painter = rememberAsyncImagePainter(model = movie.images.first())
             Box(
                 modifier = Modifier
                     .height(150.dp)
