@@ -23,6 +23,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
@@ -32,6 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MovieAppMAD24Theme {
+                val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
@@ -85,7 +91,18 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxSize()
                                 .padding(innerPadding)
                         ) {
-                            HomeScreen()
+                            NavHost(navController, startDestination = "home") {
+                                composable("home") {
+                                    HomeScreen(navController)
+                                }
+                                composable("detail/{movieId}") { backStackEntry ->
+                                    val movieId = backStackEntry.arguments?.getString("movieId")
+                                    val movie = getMovies().find { it.id == movieId }
+                                    if (movie != null) {
+                                        DetailScreen(movie)
+                                    }
+                                }
+                            }
                         }
                     }
 

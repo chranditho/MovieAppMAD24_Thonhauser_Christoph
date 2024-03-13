@@ -3,6 +3,7 @@ package com.example.movieappmad24.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,13 +38,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.movieappmad24.models.Movie
 
 @Composable
-fun MovieRow(movie: Movie) {
+fun MovieRow(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
     var detailsVisible by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(5.dp)
+            .clickable { onMovieClick(movie) },
         shape = ShapeDefaults.Large,
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
