@@ -29,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
@@ -100,11 +101,11 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxSize()
                                 .padding(innerPadding)
                         ) {
-                            NavHost(navController, startDestination = "home") {
-                                composable("home") {
+                            NavHost(navController, startDestination = Screen.Home.route) {
+                                composable(Screen.Home.route) {
                                     HomeScreen(navController)
                                 }
-                                composable("detail/{movieId}") { backStackEntry ->
+                                composable(Screen.Detail.route) { backStackEntry ->
                                     val movieId = backStackEntry.arguments?.getString("movieId")
                                     val movie = getMovies().find { it.id == movieId }
                                     if (movie != null) {
