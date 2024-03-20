@@ -23,15 +23,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
+import com.example.movieappmad24.ui.screens.WatchlistScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
 class MainActivity : ComponentActivity() {
@@ -70,8 +73,10 @@ class MainActivity : ComponentActivity() {
                                 contentColor = MaterialTheme.colorScheme.primary,
                             ) {
                                 NavigationBar {
-                                    NavigationBarItem(selected = true,
-                                        onClick = { /*TODO*/ },
+                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                    val currentScreen = navBackStackEntry?.destination?.route
+                                    NavigationBarItem(selected = currentScreen == Screen.Home.route,
+                                        onClick = { navController.navigate(Screen.Home.route) },
                                         icon = {
                                             Icon(
                                                 imageVector = Icons.Default.Home,
@@ -81,8 +86,8 @@ class MainActivity : ComponentActivity() {
                                         label = {
                                             Text("Home")
                                         })
-                                    NavigationBarItem(selected = false,
-                                        onClick = { /*TODO*/ },
+                                    NavigationBarItem(selected = currentScreen == Screen.Watchlist.route,
+                                        onClick = { navController.navigate(Screen.Watchlist.route) },
                                         icon = {
                                             Icon(
                                                 imageVector = Icons.Default.Star,
@@ -111,6 +116,9 @@ class MainActivity : ComponentActivity() {
                                     if (movie != null) {
                                         DetailScreen(movie)
                                     }
+                                }
+                                composable(Screen.Watchlist.route) {
+                                    WatchlistScreen()
                                 }
                             }
                         }
