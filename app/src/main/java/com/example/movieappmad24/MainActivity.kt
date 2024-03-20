@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,16 +39,11 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    val currentScreen = getCurrentScreen(navController)
-                    val title = when (currentScreen) {
-                        Screen.Home.route -> "Movie App"
-                        Screen.Watchlist.route -> "Your Watchlist"
-                        Screen.Detail.route -> movieTitle
-                        else -> "Movie App"
-                    }
                     Scaffold(
                         topBar = {
-                            SimpleTopAppBar(title, onBackClick = { navController.popBackStack() })
+                            SimpleTopAppBar(
+                                getTitle(navController, movieTitle),
+                                onBackClick = { navController.popBackStack() })
                         },
                         bottomBar = { SimpleBottomAppBar(navController) },
                     ) { innerPadding ->
@@ -77,5 +74,20 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun getTitle(
+        navController: NavHostController,
+        movieTitle: String
+    ): String {
+        val currentScreen = getCurrentScreen(navController)
+        val title = when (currentScreen) {
+            Screen.Home.route -> "Movie App"
+            Screen.Watchlist.route -> "Your Watchlist"
+            Screen.Detail.route -> movieTitle
+            else -> "Movie App"
+        }
+        return title
     }
 }
