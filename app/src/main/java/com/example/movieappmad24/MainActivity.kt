@@ -48,16 +48,14 @@ class MainActivity : ComponentActivity() {
                             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                                 titleContentColor = MaterialTheme.colorScheme.primary,
-                            ),
-                                navigationIcon = {
-                                        IconButton(onClick = { navController.popBackStack() }) {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowBack,
-                                                contentDescription = "Go back"
-                                            )
-                                        }
-                                },
-                                title = {
+                            ), navigationIcon = {
+                                IconButton(onClick = { navController.popBackStack() }) {
+                                    Icon(
+                                        imageVector = Icons.Default.ArrowBack,
+                                        contentDescription = "Go back"
+                                    )
+                                }
+                            }, title = {
                                 Text(
                                     "Movie App",
                                     textAlign = TextAlign.Center,
