@@ -21,11 +21,12 @@ import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.components.MovieRow
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
+import com.example.movieappmad24.viewmodels.MovieViewModel
 
 @Composable
-fun DetailScreen(movie: Movie) {
+fun DetailScreen(movie: Movie, viewModel: MovieViewModel) {
     Column {
-        MovieRow(movie)
+        MovieRow(movie, viewModel)
         LazyRow(Modifier.padding(5.dp)) {
             items(movie.images) { imageUrl ->
                 Card(
@@ -54,7 +55,7 @@ fun DetailScreen(movie: Movie) {
 @Composable
 fun DetailScreenPreview() {
     MovieAppMAD24Theme {
-        DetailScreen(movie = getMovies().first())
+        DetailScreen(movie = getMovies().first(), viewModel = MovieViewModel())
     }
 }
 

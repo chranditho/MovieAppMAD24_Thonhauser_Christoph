@@ -4,14 +4,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.components.MovieRow
+import com.example.movieappmad24.viewmodels.MovieViewModel
 
 @Composable
-fun WatchlistScreen() {
+fun WatchlistScreen(viewModel: MovieViewModel) {
     val movies = getMovies().subList(3, 5)
 
     Column {
         movies.forEach { movie ->
-            MovieRow(movie)
+            MovieRow(movie, viewModel)
         }
     }
 }

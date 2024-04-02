@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -31,14 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.viewmodels.MovieViewModel
 
 @Composable
-fun MovieRow(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
+fun MovieRow(movie: Movie, viewModel: MovieViewModel, onMovieClick: (Movie) -> Unit = {}) {
     var detailsVisible by remember { mutableStateOf(false) }
 
     Card(
@@ -69,11 +72,13 @@ fun MovieRow(movie: Movie, onMovieClick: (Movie) -> Unit = {}) {
                         .padding(10.dp),
                     contentAlignment = Alignment.TopEnd
                 ) {
-                    Icon(
-                        tint = MaterialTheme.colorScheme.secondary,
-                        imageVector = Icons.Default.FavoriteBorder,
-                        contentDescription = "Add to favorites"
-                    )
+                    IconButton(onClick = { viewModel.toggleFavorite(movie) }) {
+                        Icon(
+                            tint = Color.Red,
+                            imageVector = if (viewModel.isFavorite(movie)) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = "Add to favorites"
+                        )
+                    }
                 }
             }
 

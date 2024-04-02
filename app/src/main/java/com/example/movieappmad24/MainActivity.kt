@@ -3,6 +3,7 @@ package com.example.movieappmad24
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,7 @@ import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
 import com.example.movieappmad24.ui.screens.WatchlistScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
+import com.example.movieappmad24.viewmodels.MovieViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,19 +55,20 @@ class MainActivity : ComponentActivity() {
                                 .padding(innerPadding)
                         ) {
                             NavHost(navController, startDestination = Screen.Home.route) {
+                                val viewModel: MovieViewModel by viewModels()
                                 composable(Screen.Home.route) {
-                                    HomeScreen(navController)
+                                    HomeScreen(navController, viewModel)
                                 }
                                 composable(Screen.Detail.route) { backStackEntry ->
                                     val movieId = backStackEntry.arguments?.getString("movieId")
                                     val movie = getMovies().find { it.id == movieId }
                                     movieTitle = movie?.title ?: "Movie Details"
                                     if (movie != null) {
-                                        DetailScreen(movie)
+                                        DetailScreen(movie, viewModel)
                                     }
                                 }
                                 composable(Screen.Watchlist.route) {
-                                    WatchlistScreen()
+                                    WatchlistScreen(viewModel)
                                 }
                             }
                         }
