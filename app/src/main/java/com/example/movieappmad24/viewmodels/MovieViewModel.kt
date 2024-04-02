@@ -17,4 +17,8 @@ class MovieViewModel : ViewModel() {
     fun isFavorite(movie: Movie): Boolean {
         return movies[movie]?.value ?: false
     }
+
+    fun getFavoriteMovies(): List<Movie> {
+        return movies.filter { it.value.value }.keys.toList()
+    }
 }

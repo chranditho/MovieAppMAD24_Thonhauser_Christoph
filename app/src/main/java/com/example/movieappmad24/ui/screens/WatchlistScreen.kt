@@ -8,7 +8,7 @@ import com.example.movieappmad24.viewmodels.MovieViewModel
 
 @Composable
 fun WatchlistScreen(viewModel: MovieViewModel) {
-    val movies = getMovies().subList(3, 5)
+    val movies = viewModel.getFavoriteMovies()
 
     Column {
         movies.forEach { movie ->
