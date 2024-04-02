@@ -2,7 +2,6 @@ package com.example.movieappmad24.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.components.MovieRow
 import com.example.movieappmad24.viewmodels.MovieViewModel
 
@@ -12,7 +11,7 @@ fun WatchlistScreen(viewModel: MovieViewModel) {
 
     Column {
         movies.forEach { movie ->
-            MovieRow(movie, viewModel)
+            MovieRow(movie, viewModel::isFavorite, viewModel::toggleFavorite)
         }
     }
 }

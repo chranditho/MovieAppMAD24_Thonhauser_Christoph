@@ -26,7 +26,7 @@ import com.example.movieappmad24.viewmodels.MovieViewModel
 @Composable
 fun DetailScreen(movie: Movie, viewModel: MovieViewModel) {
     Column {
-        MovieRow(movie, viewModel)
+        MovieRow(movie, viewModel::isFavorite, viewModel::toggleFavorite)
         LazyRow(Modifier.padding(5.dp)) {
             items(movie.images) { imageUrl ->
                 Card(
