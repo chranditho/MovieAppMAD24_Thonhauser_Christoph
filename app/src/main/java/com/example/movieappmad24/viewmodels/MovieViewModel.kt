@@ -1,6 +1,5 @@
 package com.example.movieappmad24.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.movieappmad24.models.Movie
