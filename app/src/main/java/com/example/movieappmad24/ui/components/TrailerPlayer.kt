@@ -13,11 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-import com.example.movieappmad24.models.Movie
 
 @Composable
-fun PlayerView(movie: Movie) {
-    val player = player(movie)
+fun PlayerView(trailer: String) {
+    val player = player(trailer)
     AndroidView({ context ->
         val playerView = androidx.media3.ui.PlayerView(context)
         playerView.player = player
@@ -26,9 +25,9 @@ fun PlayerView(movie: Movie) {
 }
 
 @Composable
-private fun player(movie: Movie): ExoPlayer {
+private fun player(trailer: String): ExoPlayer {
     val context = LocalContext.current
-    val resourceId = context.resources.getIdentifier(movie.trailer, "raw", context.packageName)
+    val resourceId = context.resources.getIdentifier(trailer, "raw", context.packageName)
     val uri = Uri.parse("android.resource://${context.packageName}/$resourceId")
     val mediaItem = MediaItem.fromUri(uri)
 
