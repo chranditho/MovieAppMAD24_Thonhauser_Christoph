@@ -29,7 +29,7 @@ fun DetailScreen(movie: Movie, viewModel: MovieViewModel) {
 
     Column {
         MovieRow(movie, viewModel::isFavorite, viewModel::toggleFavorite)
-        PlayerView(movie)
+        PlayerView()
         LazyRow(Modifier.padding(5.dp)) {
             items(movie.images) { imageUrl ->
                 Card(
