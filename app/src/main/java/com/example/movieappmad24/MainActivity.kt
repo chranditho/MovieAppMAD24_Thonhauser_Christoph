@@ -29,6 +29,7 @@ import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
 import com.example.movieappmad24.ui.screens.WatchlistScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
+import com.example.movieappmad24.viewmodels.MovieDetailViewModel
 import com.example.movieappmad24.viewmodels.MovieViewModel
 
 class MainActivity : ComponentActivity() {
@@ -56,15 +57,18 @@ class MainActivity : ComponentActivity() {
                         ) {
                             NavHost(navController, startDestination = Screen.Home.route) {
                                 val viewModel: MovieViewModel by viewModels()
+                                val moveDetails: MovieDetailViewModel by viewModels()
                                 composable(Screen.Home.route) {
                                     HomeScreen(navController, viewModel)
                                 }
                                 composable(Screen.Detail.route) { backStackEntry ->
                                     val movieId = backStackEntry.arguments?.getString("movieId")
-                                    val movie = getMovies().find { it.id == movieId }
+                                    moveDetails.getMovieById(movieId?.toLong() ?: 0)
+                                    val movieWithImages = moveDetails.movie.value
+                                    val movie = movieWithImages?.movie
                                     movieTitle = movie?.title ?: "Movie Details"
                                     if (movie != null) {
-                                        DetailScreen(movie, viewModel)
+                                        DetailScreen(movieWithImages, viewModel)
                                     }
                                 }
                                 composable(Screen.Watchlist.route) {

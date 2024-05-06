@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieImage
+import com.example.movieappmad24.models.MovieWithImages
 import kotlinx.coroutines.launch
 
 class MovieListViewModel(private val repository: MovieRepository) : ViewModel() {
-    private val allMovies = MutableLiveData<List<Movie>>()
+    private val allMovies = MutableLiveData<List<MovieWithImages>>()
 
     init {
         fetchAllMovies()
@@ -18,7 +20,7 @@ class MovieListViewModel(private val repository: MovieRepository) : ViewModel() 
         allMovies.value = repository.getAllMovies()
     }
 
-    fun insert(movie: Movie) = viewModelScope.launch {
+    fun insert(movie: MovieImage) = viewModelScope.launch {
         repository.insert(movie)
     }
 }

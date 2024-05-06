@@ -37,14 +37,14 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 
 @Composable
 fun MovieRow(
-    movie: Movie,
-    isFavorite: (Movie) -> Boolean,
-    toggleFavorite: (Movie) -> Unit,
-    onMovieClick: (Movie) -> Unit = {}
+    movieWithImages: MovieWithImages,
+    isFavorite: (MovieWithImages) -> Boolean,
+    toggleFavorite: (MovieWithImages) -> Unit,
+    onMovieClick: (MovieWithImages) -> Unit = {}
 ) {
     var detailsVisible by remember { mutableStateOf(false) }
 
@@ -52,12 +52,13 @@ fun MovieRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { onMovieClick(movie) },
+            .clickable { onMovieClick(movieWithImages) },
         shape = ShapeDefaults.Large,
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Column {
-            val painter: Painter = rememberAsyncImagePainter(model = movie.images.first())
+            val painter: Painter =
+                rememberAsyncImagePainter(model = movieWithImages.movie.images.first())
             Box(
                 modifier = Modifier
                     .height(150.dp)
@@ -76,10 +77,10 @@ fun MovieRow(
                         .padding(10.dp),
                     contentAlignment = Alignment.TopEnd
                 ) {
-                    IconButton(onClick = { toggleFavorite(movie) }) {
+                    IconButton(onClick = { toggleFavorite(movieWithImages) }) {
                         Icon(
                             tint = Color.Red,
-                            imageVector = if (isFavorite(movie)) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            imageVector = if (isFavorite(movieWithImages)) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Add to favorites"
                         )
                     }
@@ -93,7 +94,7 @@ fun MovieRow(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = movie.title)
+                Text(text = movieWithImages.movie.title)
                 IconButton(onClick = { detailsVisible = !detailsVisible }) {
                     Icon(
                         imageVector = if (detailsVisible) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
@@ -108,17 +109,17 @@ fun MovieRow(
                         .animateContentSize()
                         .padding(18.dp)
                 ) {
-                    Text("Director: ${movie.director}")
-                    Text("Released: ${movie.year}")
-                    Text("Genre: ${movie.genre}")
-                    Text("Actors: ${movie.actors}")
-                    Text("Rating: ${movie.rating}")
+                    Text("Director: ${movieWithImages.movie.director}")
+                    Text("Released: ${movieWithImages.movie.year}")
+                    Text("Genre: ${movieWithImages.movie.genre}")
+                    Text("Actors: ${movieWithImages.movie.actors}")
+                    Text("Rating: ${movieWithImages.movie.rating}")
                     Divider(
                         thickness = 1.dp,
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
-                    Text("Plot: ${movie.plot}")
+                    Text("Plot: ${movieWithImages.movie.plot}")
                 }
             }
         }
