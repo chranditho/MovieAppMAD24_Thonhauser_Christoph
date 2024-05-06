@@ -13,4 +13,13 @@ class MovieDetailViewModel(private val repository: MovieRepository) : ViewModel(
     fun getMovieById(id: Long) = viewModelScope.launch {
         movie.value = repository.getMovieById(id)
     }
+
+    fun update(movie: Movie) = viewModelScope.launch {
+        repository.update(movie)
+    }
+
+    fun toggleFavorite(movie: Movie) {
+        val updatedMovie = movie.copy(isFavorite = !movie.isFavorite)
+        update(updatedMovie)
+    }
 }

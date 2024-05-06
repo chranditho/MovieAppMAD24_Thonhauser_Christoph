@@ -42,7 +42,6 @@ import com.example.movieappmad24.models.Movie
 @Composable
 fun MovieRow(
     movie: Movie,
-    isFavorite: (Movie) -> Boolean,
     toggleFavorite: (Movie) -> Unit,
     onMovieClick: (Movie) -> Unit = {}
 ) {
@@ -79,7 +78,7 @@ fun MovieRow(
                     IconButton(onClick = { toggleFavorite(movie) }) {
                         Icon(
                             tint = Color.Red,
-                            imageVector = if (isFavorite(movie)) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            imageVector = if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Add to favorites"
                         )
                     }
