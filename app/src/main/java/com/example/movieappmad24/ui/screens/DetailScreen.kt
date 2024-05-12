@@ -16,17 +16,18 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.ui.components.MovieRow
 import com.example.movieappmad24.ui.components.PlayerView
 import com.example.movieappmad24.viewmodels.MovieDetailViewModel
 
 @Composable
-fun DetailScreen(movie: Movie, viewModel: MovieDetailViewModel) {
+fun DetailScreen(movie: MovieWithImages, viewModel: MovieDetailViewModel) {
 
+    val imageUrl = movie.images.firstOrNull { it.movieId == movie.movie.id }?.imageUrl ?: "";
     Column {
-        MovieRow(movie, viewModel::toggleFavorite)
-        PlayerView(movie.trailer)
+        MovieRow(movie.movie, imageUrl, viewModel::toggleFavorite)
+        PlayerView(movie.movie.trailer)
         LazyRow(Modifier.padding(5.dp)) {
             items(movie.images) { imageUrl ->
                 Card(

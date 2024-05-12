@@ -12,7 +12,9 @@ fun WatchlistScreen(viewModel: MovieListViewModel) {
 
     LazyColumn {
         items(movies) { movie ->
-            MovieRow(movie, viewModel::toggleFavorite)
+            val imageUrl =
+                movie.images.firstOrNull { it.movieId == movie.movie.id }?.imageUrl ?: ""
+            MovieRow(movie.movie, imageUrl, viewModel::toggleFavorite)
         }
     }
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.components.MovieRow
 import com.example.movieappmad24.viewmodels.MovieListViewModel
 
@@ -13,9 +12,11 @@ fun HomeScreen(navController: NavController, viewModel: MovieListViewModel) {
     val movies = viewModel.getMovies()
     LazyColumn {
         items(movies) { movie ->
-            MovieRow(movie, viewModel::toggleFavorite) { selectedMovie ->
+            val imageUrl =
+                movie.images.firstOrNull { it.movieId == movie.movie.id }?.imageUrl ?: "";
+            MovieRow(movie.movie, imageUrl, { selectedMovie ->
                 navController.navigate("detail/${selectedMovie.id}")
-            }
+            })
         }
     }
 }

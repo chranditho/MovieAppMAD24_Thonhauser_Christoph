@@ -73,8 +73,8 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable(Screen.Detail.route) { backStackEntry ->
                                     val movieId = backStackEntry.arguments?.getString("movieId")
-                                    val movie = getMovies().find { it.id == movieId }
-                                    movieTitle = movie?.title ?: "Movie Details"
+                                    val movie = getMovies().find { it.movie.id == movieId }
+                                    movieTitle = movie?.movie?.title ?: "Movie Details"
                                     if (movie != null) {
                                         DetailScreen(movie, movieDetailViewModel)
                                     }

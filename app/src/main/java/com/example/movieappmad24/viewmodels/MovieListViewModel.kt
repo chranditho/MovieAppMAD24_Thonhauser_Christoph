@@ -4,11 +4,12 @@ import MovieRepository
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 import kotlinx.coroutines.launch
 
 class MovieListViewModel(private val repository: MovieRepository) : ViewModel() {
-    private val allMovies = MutableLiveData<List<Movie>>()
+    private val allMovies = MutableLiveData<List<MovieWithImages>>()
+    private val favoriteMovies = MutableLiveData<List<MovieWithImages>>()
 
     init {
         fetchAllMovies()
@@ -18,22 +19,23 @@ class MovieListViewModel(private val repository: MovieRepository) : ViewModel() 
         allMovies.value = repository.getAllMovies()
     }
 
-    fun insert(movie: Movie) = viewModelScope.launch {
-        repository.insert(movie)
+    fun insert(movieWithImages: MovieWithImages) = viewModelScope.launch {
+        repository.insert(movieWithImages)
     }
 
     fun getMovies() = allMovies.value.orEmpty()
 
-    fun update(movie: Movie) = viewModelScope.launch {
-        repository.update(movie)
+    fun update(movieWithImages: MovieWithImages) = viewModelScope.launch {
+        repository.update(movieWithImages)
     }
 
-    fun toggleFavorite(movie: Movie) {
-        val updatedMovie = movie.copy(isFavorite = !movie.isFavorite)
+    fun toggleFavorite(movieWithImages: MovieWithImages) {
+        val updatedMovie = movieWithImages.copy(movieWithImages.movie)
+        updatedMovie.movie.isFavorite = !movieWithImages.movie.isFavorite
         update(updatedMovie)
     }
 
-    fun getFavoriteMovies(): List<Movie> {
-        return getMovies().filter { it.isFavorite }
+    fun getFavoriteMovies(): List<MovieWithImages> {
+        return favoriteMovies.value.orEmpty()
     }
 }
