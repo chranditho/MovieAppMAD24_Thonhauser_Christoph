@@ -14,22 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.ui.components.MovieRow
 import com.example.movieappmad24.ui.components.PlayerView
-import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
-import com.example.movieappmad24.viewmodels.MovieViewModel
+import com.example.movieappmad24.viewmodels.MovieDetailViewModel
 
 @Composable
-fun DetailScreen(movie: Movie, viewModel: MovieViewModel) {
+fun DetailScreen(movie: MovieWithImages, viewModel: MovieDetailViewModel) {
 
+    val imageUrl = movie.images.firstOrNull { it.movieId == movie.movie.id }?.imageUrl ?: "";
     Column {
-        MovieRow(movie, viewModel::isFavorite, viewModel::toggleFavorite)
-        PlayerView(movie.trailer)
+        MovieRow(movie.movie, imageUrl, viewModel::toggleFavorite)
+        PlayerView(movie.movie.trailer)
         LazyRow(Modifier.padding(5.dp)) {
             items(movie.images) { imageUrl ->
                 Card(
@@ -53,12 +51,3 @@ fun DetailScreen(movie: Movie, viewModel: MovieViewModel) {
         }
     }
 }
-
-@Preview
-@Composable
-fun DetailScreenPreview() {
-    MovieAppMAD24Theme {
-        DetailScreen(movie = getMovies().first(), viewModel = MovieViewModel())
-    }
-}
-

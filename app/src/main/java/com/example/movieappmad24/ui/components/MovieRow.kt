@@ -38,13 +38,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 
 @Composable
 fun MovieRow(
     movie: Movie,
-    isFavorite: (Movie) -> Boolean,
-    toggleFavorite: (Movie) -> Unit,
-    onMovieClick: (Movie) -> Unit = {}
+    imageUrl: String,
+    toggleFavorite: (MovieWithImages) -> Unit,
+    onMovieClick: (MovieWithImages) -> Unit = {}
 ) {
     var detailsVisible by remember { mutableStateOf(false) }
 
@@ -57,7 +58,7 @@ fun MovieRow(
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Column {
-            val painter: Painter = rememberAsyncImagePainter(model = movie.images.first())
+            val painter: Painter = rememberAsyncImagePainter(model = imageUrl)
             Box(
                 modifier = Modifier
                     .height(150.dp)
@@ -79,7 +80,7 @@ fun MovieRow(
                     IconButton(onClick = { toggleFavorite(movie) }) {
                         Icon(
                             tint = Color.Red,
-                            imageVector = if (isFavorite(movie)) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            imageVector = if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Add to favorites"
                         )
                     }

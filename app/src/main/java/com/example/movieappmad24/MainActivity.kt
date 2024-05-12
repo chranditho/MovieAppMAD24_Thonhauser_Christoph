@@ -1,5 +1,7 @@
 package com.example.movieappmad24
 
+import MovieDatabase
+import MovieRepository
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,9 +31,20 @@ import com.example.movieappmad24.ui.screens.DetailScreen
 import com.example.movieappmad24.ui.screens.HomeScreen
 import com.example.movieappmad24.ui.screens.WatchlistScreen
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
-import com.example.movieappmad24.viewmodels.MovieViewModel
+import com.example.movieappmad24.viewmodels.MovieDetailViewModel
+import com.example.movieappmad24.viewmodels.MovieDetailViewModelFactory
+import com.example.movieappmad24.viewmodels.MovieListViewModel
+import com.example.movieappmad24.viewmodels.MovieListViewModelFactory
 
 class MainActivity : ComponentActivity() {
+    private val movieListViewModel: MovieListViewModel by viewModels {
+        MovieListViewModelFactory(MovieRepository(MovieDatabase.getDatabase(this).movieDao()))
+    }
+
+    private val movieDetailViewModel: MovieDetailViewModel by viewModels {
+        MovieDetailViewModelFactory(MovieRepository(MovieDatabase.getDatabase(this).movieDao()))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,25 +68,23 @@ class MainActivity : ComponentActivity() {
                                 .padding(innerPadding)
                         ) {
                             NavHost(navController, startDestination = Screen.Home.route) {
-                                val viewModel: MovieViewModel by viewModels()
                                 composable(Screen.Home.route) {
-                                    HomeScreen(navController, viewModel)
+                                    HomeScreen(navController, movieListViewModel)
                                 }
                                 composable(Screen.Detail.route) { backStackEntry ->
                                     val movieId = backStackEntry.arguments?.getString("movieId")
-                                    val movie = getMovies().find { it.id == movieId }
-                                    movieTitle = movie?.title ?: "Movie Details"
+                                    val movie = getMovies().find { it.movie.id == movieId }
+                                    movieTitle = movie?.movie?.title ?: "Movie Details"
                                     if (movie != null) {
-                                        DetailScreen(movie, viewModel)
+                                        DetailScreen(movie, movieDetailViewModel)
                                     }
                                 }
                                 composable(Screen.Watchlist.route) {
-                                    WatchlistScreen(viewModel)
+                                    WatchlistScreen(movieListViewModel)
                                 }
                             }
                         }
                     }
-
                 }
             }
         }
